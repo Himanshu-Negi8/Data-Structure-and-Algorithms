@@ -137,7 +137,7 @@ int main(){
 	int board[4][4] = {0};
 	int n = 4;
 
-	cout<<countNQueens(board,0,n)<<endl;
+	printNQueens(board,0,n);
 
 	return 0;
 }
