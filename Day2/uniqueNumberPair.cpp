@@ -44,8 +44,8 @@ void uniqueNumberPair(int arr[],int n)
 int main()
 {
 	
-	int arr[]={1,2,3,4,5,7,4,3,2,1};
-	int n =10;
+	int arr[]={1,1,2,2,3,3,4,5,5,6,6};
+	int n =11;
 	uniqueNumberPair(arr,n);
 	return 0;
 }
