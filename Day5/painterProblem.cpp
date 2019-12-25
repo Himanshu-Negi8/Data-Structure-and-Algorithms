@@ -35,12 +35,12 @@ int painterProblem(int arr[],int n,int k)
 		if(isPossible(arr,n,k,mid))
 		{
 			ans =mid;
-			start =mid+1;
+			end =mid-1;
 			
 		}
 		else 
 		{
-			end = mid-1;
+			start = mid+1;
 		}
 		
 	}
