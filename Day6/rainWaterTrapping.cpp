@@ -4,9 +4,9 @@ using namespace std;
 
 int main()
 {
-	int arr[]={0,2,1,3,0,1,2,1,2,1};
-	int n=10,sum;
-	int l[n], r[n]={0};
+	int arr[]={0,2,1,3,0,1,2,1,2,1}; // array representing the height of the buildings
+	int n=10,sum; 
+	int l[n], r[n]={0}; // left most height and right most height array
 	
 	for(int i=0;i<n;i++)
 	{
