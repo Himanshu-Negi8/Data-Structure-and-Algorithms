@@ -21,6 +21,17 @@ void insertAtHead(node*&head,int data)
 	head =n;
 }
 
+void insertAtEnd(node*head,int data)
+{
+	node *n = new node(data);
+	node*temp = head;
+	n->next = NULL;
+	while(temp->next!=NULL)
+	{
+		temp=temp->next;
+	}
+	temp->next=n;
+}
 void display(node*head)
 {
 	node*temp =head;
@@ -30,7 +41,16 @@ void display(node*head)
 		temp=temp->next;
 	}
 }
-
+int findLength(node*head)
+{
+	node*temp = head;
+	int i=0;
+	while(temp!=NULL)
+	{++i;
+		temp=temp->next;
+	}
+	return i;
+}
 int main()
 {
 	node*head = NULL;  
@@ -38,6 +58,8 @@ int main()
 	insertAtHead(head,20);
 	insertAtHead(head,30);
 	insertAtHead(head,40);
+	insertAtEnd(head,20);
 	display(head);
+	cout<<findLength(head);
 	return 0;
 }
