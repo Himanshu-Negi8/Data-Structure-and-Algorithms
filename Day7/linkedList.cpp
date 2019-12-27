@@ -17,19 +17,20 @@ class node{
 };
 
 
-void insertAtHead(node*&head,int data)
+void insertAtHead(node*&head,int data) // insert at start
 {
 	node*n = new node(data);
 	n->next=head;
 	head =n;
 }
 
-void insertAtEnd(node*&head,int data)
+void insertAtEnd(node*&head,int data) // insert at end
 {
 	if(head==NULL)
 	{
 		insertAtHead(head,data);
 	}
+	
 	node *n = new node(data);
 	node*temp = head;
 	n->next = NULL;
@@ -39,7 +40,7 @@ void insertAtEnd(node*&head,int data)
 	}
 	temp->next=n;
 }
-void display(node*head)
+void display(node*head) // display the data of nodes
 {
 	node*temp =head;
 	while(temp!=NULL)
@@ -49,7 +50,7 @@ void display(node*head)
 	}
 	cout<<"***************"<<endl;
 }
-void insertAtPosition(node*head,int data,int pos)
+void insertAtPosition(node*&head,int data,int pos) // insert at the specific position
 {
 	if(pos<=1)
 	{
@@ -69,7 +70,7 @@ void insertAtPosition(node*head,int data,int pos)
 		temp->next =newNode;
 	}
 }
-int findLength(node*head)
+int findLength(node*head) // length of the linked list
 {
 	node*temp = head;
 	int i=0;
@@ -80,10 +81,10 @@ int findLength(node*head)
 	}
 	return i;
 }
-int middlePoint(node*head)
+int middlePoint(node*head) // return the integer value of a middle point
 {
 	int j = findLength(head);
-	j = j/2+1;
+	j = j/2;
 	node*temp = head;
 	for(int i=0;i<j-1;i++)
 	{
@@ -91,8 +92,20 @@ int middlePoint(node*head)
 	}
 	return temp->data;
 }
-
-int kthElementFromLast(node*head,int k)
+node*middleNode(node*head) //returns the complete middle node
+{
+	node*p=head;
+	node*q = head;
+	
+	
+	while(q->next!=NULL and q->next->next!=NULL)
+	{
+		p=p->next;
+		q=q->next->next;
+	}
+	return p;
+}
+int kthElementFromLast(node*head,int k) // kth element from last
 {
 	node*temp =head;
 	int i = findLength(head);
@@ -105,7 +118,7 @@ int kthElementFromLast(node*head,int k)
 	
 	return temp->data;
 }
-void deleteFromHead(node*&head)
+void deleteFromHead(node*&head) // delete from head
 {
 	if(head==NULL)
 	{
@@ -118,7 +131,7 @@ void deleteFromHead(node*&head)
 	
 }
 
-void deleteFromTail(node*&head)
+void deleteFromTail(node*&head) // delete from tail
 {
 	if(head==NULL)
 	{
@@ -142,7 +155,7 @@ void deleteFromTail(node*&head)
 		delete toBeDeleted;
 	}
 }
-void deleteAtIdx(node*&head,int idx)
+void deleteAtIdx(node*&head,int idx) // delete at a particular index 
 {
 	if(idx<=1)
 	{
@@ -164,7 +177,7 @@ void deleteAtIdx(node*&head,int idx)
 	delete toBeDeleted;
 }
 
-void reversePrint(node*p)
+void reversePrint(node*p) // print in reverse order 
 {
 	if(p==NULL)
 	{
@@ -174,19 +187,38 @@ void reversePrint(node*p)
 	cout<<p->data<<endl;
 }
 
-node* reverseList(node*&head)
+bool searchRecursive(node*p,int data) // search for an item recursively
 {
-	
-	if(head->next=NULL)
+	if(p==NULL)
+	{
+		return false;
+	}
+
+	if(p->data==data)
+		{
+			return true;
+		}
+	else
+	{
+		return searchRecursive(p->next,data);
+	}
+		
+}
+
+node* reverseRecursive(node*head) // reverse using recursion
+{
+	if(head==NULL||head->next==NULL)
 	{
 		return head;
 	}
-	node*temp = reverseList(head->next);
-	head->next->next=NULL;
-	head->next=NULL;
-	return temp;
+	node*newHead = reverseRecursive(head->next);
+	node*currentHead = head;
+	currentHead->next->next = currentHead;
+	currentHead->next = NULL;
+	return newHead;
 }
-void reverse(node*&p)
+
+void reverse(node*&p) // reverse the list iteratively
 {
 	node*prev,*next,*current=p;
 	while(current!=NULL)
@@ -206,14 +238,15 @@ int main()
 	insertAtHead(head,30);
 	insertAtHead(head,40);
 	insertAtHead(head,50);
-	insertAtPosition(head,345,3);
+	insertAtPosition(head,345,1);
 	insertAtPosition(head,45,2);
 	insertAtEnd(head,23);
+	insertAtEnd(head,567);
 	display(head);
 	
 	cout<<"Length is : "<<findLength(head)<<endl;
-	cout<<"Middle Point is :"<<middlePoint(head)<<endl;
-	cout<<"kthElementfromLast : "<<kthElementFromLast(head,1)<<endl;
+	cout<<"Middle Point is :"<<middleNode(head)->data<<endl;
+	cout<<"kthElementfromLast : "<<kthElementFromLast(head,3)<<endl;
 	deleteFromHead(head);
 	
 	display(head);
@@ -221,9 +254,10 @@ int main()
 	display(head);
 	deleteAtIdx(head,4);
 	display(head);
-	reversePrint(head);
-	reverse(head);
-	display(head);
+//	reversePrint(head);
+	head = reverseRecursive(head);
+	cout<<searchRecursive(head,10);
+	
 	return 0;
 }
 
