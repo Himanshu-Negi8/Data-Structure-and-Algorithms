@@ -92,19 +92,7 @@ int middlePoint(node*head) // return the integer value of a middle point
 	}
 	return temp->data;
 }
-node*middleNode(node*head) //returns the complete middle node
-{
-	node*p=head;
-	node*q = head;
-	
-	
-	while(q->next!=NULL and q->next->next!=NULL)
-	{
-		p=p->next;
-		q=q->next->next;
-	}
-	return p;
-}
+
 int kthElementFromLast(node*head,int k) // kth element from last
 {
 	node*temp =head;
@@ -183,7 +171,7 @@ void reversePrint(node*p) // print in reverse order
 	{
 		return;
 	}
-	reversePrint(p->next);
+	reversePrint(p->next); 
 	cout<<p->data<<endl;
 }
 
@@ -230,34 +218,135 @@ void reverse(node*&p) // reverse the list iteratively
 	}
 	p = prev;
 }
+
+node*middleNode(node*head) //returns the complete middle node
+{
+	node*p=head;
+	node*q = head;
+	
+	
+	while(q->next!=NULL and q->next->next!=NULL)
+	{
+		p=p->next;
+		q=q->next->next;
+	}
+	return p;
+}
+
+
+
+node*merge(node*a,node*b)
+{
+	if(a==NULL)
+	{
+		return a;
+	}
+	if(b==NULL)
+	{
+		return b;
+	}
+	node*c;
+	if(a->data<=b->data)
+	{
+		c=a;
+		c->next = merge(a->next,b);
+	}
+	else{
+		c=b;
+		c->next = merge(a,b->next);
+	}
+	return c;
+	
+}
+
+node* mergeSort(node*head)
+{
+	if(head==NULL||head->next==NULL)
+	{
+		return head;
+	}
+	node*mid = middleNode(head); 
+	
+	node*a = head;
+	node*b = mid->next;
+	mid->next=NULL;
+	
+	a=mergeSort(a);
+	b=mergeSort(b);
+	node*c = merge(a,b);
+	return c;
+}
+
+
+
+
+
+
+node*kReverse(node*head,int k)
+{
+	if(head==NULL||head->next==NULL)
+	{
+		return head;
+	}
+	
+	
+	node*curr =head;
+	node*prev =NULL;
+	int count=1;
+	while(count<=k and curr!=NULL)
+	{
+		node*n = curr->next;
+		curr->next = prev;
+		
+		prev = curr;
+		curr=n;
+		count++;
+	}
+	head->next = kReverse(head,k);
+}
+
 int main()
 {
-	node*head = NULL;  
-	insertAtHead(head,10);
-	insertAtHead(head,20);
-	insertAtHead(head,30);
-	insertAtHead(head,40);
-	insertAtHead(head,50);
-	insertAtPosition(head,345,1);
-	insertAtPosition(head,45,2);
-	insertAtEnd(head,23);
-	insertAtEnd(head,567);
-	display(head);
+//	node*head = NULL;  
+//	insertAtHead(head,10);
+//	insertAtHead(head,20);
+//	insertAtHead(head,30);
+//	insertAtHead(head,40);
+//	insertAtHead(head,50);
+//	insertAtPosition(head,345,1);
+//	insertAtPosition(head,45,2);
+//	insertAtEnd(head,23);
+//	insertAtEnd(head,567);
+//	display(head);
+//	
+//	cout<<"Length is : "<<findLength(head)<<endl;
+//	cout<<"Middle Point is :"<<middleNode(head)->data<<endl;
+//	cout<<"kthElementfromLast : "<<kthElementFromLast(head,3)<<endl;
+//	deleteFromHead(head);
+//	
+//	display(head);
+//	deleteFromTail(head);
+//	display(head);
+//	deleteAtIdx(head,4);
+//	display(head);
+////	reversePrint(head);
+//	head = reverseRecursive(head);
+//	cout<<searchRecursive(head,10);
+	node* head1 = NULL;
+	insertAtEnd(head1,1);
+	insertAtEnd(head1,3);
+	insertAtEnd(head1,5);
+	insertAtEnd(head1,7);
+	insertAtEnd(head1,8);
+	insertAtEnd(head1,10);
+
+	node* head2 = NULL;
+	insertAtEnd(head2,2);
+	insertAtEnd(head2,4);
+	insertAtEnd(head2,6);
 	
-	cout<<"Length is : "<<findLength(head)<<endl;
-	cout<<"Middle Point is :"<<middleNode(head)->data<<endl;
-	cout<<"kthElementfromLast : "<<kthElementFromLast(head,3)<<endl;
-	deleteFromHead(head);
-	
-	display(head);
-	deleteFromTail(head);
-	display(head);
-	deleteAtIdx(head,4);
-	display(head);
-//	reversePrint(head);
-	head = reverseRecursive(head);
-	cout<<searchRecursive(head,10);
-	
+	node* mergesList = merge(head1,head2);
+	display(mergesList);
 	return 0;
 }
 

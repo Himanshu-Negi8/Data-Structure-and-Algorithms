@@ -12,16 +12,15 @@ void printSubsequence(string str,string ans)
 	char ch = str[0];
 	string ros = str.substr(1);
 	
-	printSubsequence(ros,ans+ch);
-	printSubsequence(ros,ans);
 	
-
+	printSubsequence(ros,ans);
+	printSubsequence(ros,ans+ch);
 	
 }
 
 int main()
 {
-	string s = "abec";
+	string s = "ab";
 	printSubsequence(s,"");
 	return 0;
 }
