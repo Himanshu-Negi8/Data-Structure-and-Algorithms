@@ -43,4 +43,5 @@ int main()
 		sum+=min(l[i],r[i])-arr[i];
 	}
 	cout<<sum<<endl;
+	return 0;
 }
