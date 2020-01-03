@@ -1,31 +1,41 @@
 #include<iostream>
 using namespace std;
 
-int distinctSubsequence(string s1,string s2){
-	int dp[s1.length()+1][s2.length()+1];
-//	    for(int i=0;i<=s1.length();i++)
-//        {
-//            lcsStorage[i][0]=0;
-//        }
-//        for(int j=0;j<=s2.length();j++)
-//        {
-//            lcsStorage[0][j]=0;
-//        }
-        for(int row=s1.length();row>=1;row--)
-        {
-            for(int col=s2.length();col>=1;col--)
-            {
-                if(s1[row-1]==s2[col-1])
-                {
-                    dp[row][col]=dp[row-1][col-1]+1;
-                    
-                }else{
-                    dp[row][col]=max(dp[row-1][col],dp[row][col-1]);
-                }
-            }
-        }
-        return dp[0][0];
+int distinctDP[6][4];
+
+int helper(string s,int si,string t,int ti){
+    if(ti==t.length()){
+    	distinctDP[si][ti] = 1;
+        return 1;
+    }
         
+    if(si==s.length()){
+    	distinctDP[si][ti] = 0;
+    	return 0;
+    }
+
+    if(distinctDP[si][ti]!=-1){
+    	return distinctDP[si][ti];
+    }
+        
+    int count = 0;
+        
+    if(s[si]==t[ti]){
+        count+=helper(s,si+1,t,ti+1);
+    }
+    count+=helper(s,si+1,t,ti);
+    
+    distinctDP[si][ti] = count;
+
+//    for(int i=0;i<6;i++){
+//    	for(int j=0;j<4;j++){
+//    		cout<<distinctDP[i][j]<<"\t";
+//    	}
+//    	cout<<endl;
+//    }
+//    cout<<"*****************"<<endl;
+
+    return count;
 }
 
 int main()

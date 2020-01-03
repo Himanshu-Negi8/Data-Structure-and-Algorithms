@@ -3,12 +3,13 @@ using namespace std;
 
 int knapsack(int values[],int capacity[],int N,int weight)
 {
-
+	
 	if(weight==0||N==0)
 	{
 		return 0;
 	}
-		int taken=0,leave=0;
+	
+	int taken=0,leave=0;
 	if(capacity[N-1]<=weight)
 	{
 		 taken =values[N-1]+knapsack(values,capacity,N-1,weight-capacity[N-1]);
@@ -17,6 +18,11 @@ int knapsack(int values[],int capacity[],int N,int weight)
 	leave= 0+knapsack(values,capacity,N-1,weight);
 	
 	return max(taken,leave);
+}
+
+int knapSackMemo(int values[],int capacity[],int N,int max_capacity)
+{
+	return 0;
 }
 
 

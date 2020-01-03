@@ -1,15 +1,19 @@
 #include<iostream>
 using namespace std;
 
-bool isSafe(int board[][4],int row,int col,int n)
+bool isSafe(char board[][4],int row,int col,int n)
 {
-	for(i=0;i<row;i++)
+	for(int i=0;i<row;i++)
 	{
-		if(board[i][col])
+		if(board[i][col]=='X')
+		{
+			return false;
+		}
 	}
+	return true;
 }
 
-bool ratInMaze(int board[][4],row,n)
+bool ratInMaze(char board[][4],int row,int n)
 {
 	if(row==n)
 	{
@@ -40,5 +44,7 @@ int main()
      	{'0','0','X','0'},
      	{'0','X','0','0'},
      };
+     
+     cout<<ratInMaze(maze,4,5);
 return 0;
 }
