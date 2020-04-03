@@ -28,13 +28,24 @@ int minCoins(int coins[],int n,int amount)
 
 int minCoinsDp(int coins[],int amount,int n)
 {
-	
+	int dp[amount+1];
+        for(int i=0;i<=amount;i++) dp[i]=amount+1;
+        dp[0]=0;
+        
+        for(int i=1;i<=amount;i++){
+            for(int coin:coins){
+                if(i-coin>=0){
+                    dp[i]=min(dp[i],dp[i-coin]+1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1:dp[amount];
 }
 int main()
 {
 	int coins[]={1,2,5};
 	int n=3;
 	int amount=17;
-	cout<<minCoins(coins,n,amount);
+	cout<<minCoinsDp(coins,amount,n);
 	return 0;
 }

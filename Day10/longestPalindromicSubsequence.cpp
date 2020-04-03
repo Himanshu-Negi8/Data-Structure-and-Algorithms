@@ -27,18 +27,18 @@ int longestPalindromicSubsequence(string s,int left,int right)
     return result;
 }
 
-
-int longestPalindromicSubsequenceDP(string s)
-{
-	int n = s.length()
-	int dp[n][n];
-	
-	for(int i=0;i<n;i++)
-	{
-		dp[i][i]=1;
-	}
-
-}
+//
+//int longestPalindromicSubsequenceDP(string s)
+//{
+//	int n = s.length()
+//	int dp[n][n];
+//	
+//	for(int i=0;i<n;i++)
+//	{
+//		dp[i][i]=1;
+//	}
+//
+//}
 
 int main()
 {
