@@ -13,16 +13,17 @@ int countBoardPath(int sr,int sc,int er,int ec)
 	{
 		return 0;
 	}
-	
+	int count = 0;
 	int horizontal = countBoardPath(sr,sc+1,er,ec);
 	int vertical = countBoardPath(sr+1,sc,er,ec);
-	return horizontal+vertical;
+	count = horizontal+vertical;
+	return count;
 }
 
 
 int main()
 {
 	
-	cout<<countBoardPath(0,0,2,2)<<endl;
+	cout<<countBoardPath(0,0,3,2)<<endl;
 	return 0;
 }
