@@ -1,7 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
+int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int>mp;
+        for(char ch:s){
+            mp[ch]++;
+        }
+        
+        
+}
 int main()
 {
 //	string s = "himanshu";
@@ -14,8 +21,22 @@ int main()
 //	}
 //	string g(p);
 //	cout<<g;
-
-	unordered_map<string,vector<string>>mp;
-	mp.insert("him","")
+	string s = "pwwkew";
+	unordered_map<char,int>mp;
+    for(char ch:s){
+            mp[ch]++;
+	}
+	int ans=0;
+	for(auto a:mp){
+		cout<<a.first<< a.second;
+		cout<<endl;
+		if(a.second>1){
+			ans+=1;
+		}else{
+			ans+=1;
+		}
+		
+	}
+	cout<<ans;
 	return 0;
 }
