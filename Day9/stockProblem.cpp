@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -61,7 +61,7 @@ void findSteps(int arr[],int n)
 		int value;
 		if(s.isEmpty()){
 			value+=1;
-		}
+		} 
 		else{
 			value = i-s.getTop();
 		}
@@ -100,11 +100,11 @@ void findGreater(int arr[],int n) //next greater element
 }
 int main(){
 
-//	int arr[]={100,80,60,70,60,75,85};
+	int arr[]={100,80,60,70,60,75,85};
 
-//	findSteps(arr,7);
+	findSteps(arr,7);
 
-	int arr[]={5,3,10,2,6,13,4};
-	findGreater(arr,7);
+//	int arr[]={5,3,10,2,6,13,4};
+//	findGreater(arr,7);
 	return 0;
 }
