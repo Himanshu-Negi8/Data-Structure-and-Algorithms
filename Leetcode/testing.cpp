@@ -30,21 +30,26 @@ int main()
 //	ob.set(nums);
 //	ob.print();
 
-	vector<int>v(4);
-	v[0]=1;
-	v[1]=3;
-	v[2]=5;
-	v[3]=6;
+	vector<int>v,p;
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	p.push_back(36);
+//	priority_queue<int>pq;
+//	pq.push(10);
+//	pq.push(12);
+//	cout<<pq.size();
+//	priority_queue<int,vector<int>,greater<int> >pq;
 	
-	for(int i:v){
-		cout<<i<<" ";
-	}
-	cout<<endl;
-	if(binary_search(v.begin(),v.end(),5)){
-		auto lb = lower_bound(v.begin(),v.end(),5)-v.begin();
-		
-		cout<<lb;
-	}
+   priority_queue<pair<int,vector<int>>,vector<pair<int,vector<int>>>,greater<pair<int,vector<int>>>> myPq;
+   myPq.push(make_pair(v.size(),v));
+   myPq.push(make_pair(p.size(),p));
+   while(!(myPq.size()==1)){
+   	myPq.pop();
+   }
+   cout<<myPq.top().first ;
+//	pq.push(v,v.size());
+//	cout<<pq.top().first;
 	return 0;
 
 }
