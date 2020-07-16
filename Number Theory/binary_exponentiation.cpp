@@ -35,8 +35,10 @@ int computePower(int a,int b){
 	
 	while(b>0){
 		if(b%2==1) result*=a;
+	
 		a*=a;
 		b/=2;
+				
 	}
 	
 	return result;
@@ -67,7 +69,7 @@ int computePowerII(int base,int power){
 
 int main(){
 	
-	cout<<computePowerII(3,8);
+	cout<<computePower(3,40);
 	
 //	int base=3;
 //	int result=1;

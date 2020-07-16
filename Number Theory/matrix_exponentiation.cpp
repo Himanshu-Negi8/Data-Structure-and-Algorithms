@@ -1,15 +1,29 @@
 #include<bits/stdc++.h>
-using namespace std;
+#define mod 1000000007
+#define pb push_back
+#define ff first
+#define ss second
+#define ii pair<int,int>
+#define vi vector<int>
+#define vii vector<ii>
+#define lli long long int
+#define INF 1000000000
+#define REP(i,n) for(int i=1;i<=n;i++) 
 
 #define N 101
 
-#define REP(i,n) for(int i=1;i<=n;i++) 
+using namespace std;
+
+
+// dim stands for dimensions 
+
+// I stands for identity matrix 
 
 int arr[N][N],I[N][N];
 
 
 void mul(int a[][N],int b[][N], int dim){
-	int res[dim][dim];
+	int res[dim+1][dim+1];
 	
 	REP(i,dim) {
 		REP(j,dim) {
@@ -53,7 +67,8 @@ void printMat(int a[][N],int dim){
 	} 
 }
 int main(){
-	
+	// n stands for power 
+	//t is testcases 
 	int t,dim,n;
 	cin>>t;
 	while(t--){

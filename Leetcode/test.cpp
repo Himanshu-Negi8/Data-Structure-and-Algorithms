@@ -17,7 +17,7 @@ void change(string &s){
 int main()
 {
 	string s = 	"world! better we have";
-
+	cout<<"original string : "<<s<<endl;
 	change(s);
 	
 	vector<string>nums;
@@ -32,12 +32,14 @@ int main()
 			word+=s[i];
 		}
 	}
-	 cout<<endl;
-	 string ans;
+	cout<<"After reversing : "<<s<<endl;
+
+	string ans;
 	for(int i=0;i<nums.size();i++){
 		change(nums[i]);
 		ans+=nums[i]+' ';
 	}
+	cout<<"Word reverse will be : ";
 	cout<<ans;
 	
 	return 0;
