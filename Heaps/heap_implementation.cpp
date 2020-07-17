@@ -13,6 +13,24 @@ class Heap{
 			return a>b;
 		}
 	}
+	void heapify(int index){
+		int left = 2*index;
+		int right = 2*index+1;
+		//assume current index is min
+		int minIndex = index;
+		
+		if(left<v.size() and compare(v[left],v[index])){
+			minIndex =left;
+			
+		}
+		if(right<v.size() and compare(v[right],v[minIndex])){
+			minIndex=right;
+		}
+		if(minIndex!=index){
+			swap(v[index],v[minIndex]);
+			heapify(minIndex);
+		}
+	}
 	public:
 		Heap(bool type=true){
 			minHeap=type;
@@ -35,6 +53,15 @@ class Heap{
 				parent/=2;
 			}
 		}
+		
+		void pop(){
+			//remove top most element
+			int last = v.size()-1;
+			swap(v[1],v[last]);
+			v.pop_back();
+			heapify(1);
+		}
+		
 		bool empty(){
 			return v.size()==1;
 		}
@@ -49,14 +76,19 @@ class Heap{
 
 
 int main(){
-	Heap h(true);
+	//false for maxheap and true for minHeap
+	Heap h(false);
 	h.push(10);
 	h.push(9);
 	h.push(17);
 	h.push(-78);
 	h.push(1);
 	h.push(98);
-	cout<<h.top();
+//	cout<<h.top();
+	while(!h.empty()){
+		cout<<h.top()<<endl;
+		h.pop();
+	}
 	
 	return 0;
 }
