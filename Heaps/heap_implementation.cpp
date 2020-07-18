@@ -6,6 +6,7 @@ class Heap{
 	
 	vector<int>v;
 	bool minHeap;
+	
 	bool compare(int a,int b){
 		if(minHeap){
 			return a<b;
