@@ -56,7 +56,7 @@ public:
 	
 	
 	//finding the single source shortest path using bfs traversal
-	void distance(T src){
+	void distance(T src, T dest){
 		queue<T>q;
 		
 		map<T,int>dist;
@@ -92,8 +92,16 @@ public:
 		//printing the distance
 		for(auto i:adjList){
 			T node = i.first;
-			cout<<" Dist of this "<<node<<" from "<<src<<" is "<<dist[node]<<endl;
+			cout<<"Dist of this "<<node<<" from "<<src<<" is "<<dist[node]<<endl;
+			
 		}
+		
+		// incase you want to see the path as well then parent map will come in working
+		 T node = dest;
+		 while(src!=node){
+		 	cout<<node<<" parent is "<<parent[node]<<"  ";
+		 	node = parent[node];
+		 }
 		
 	}
 	
@@ -115,7 +123,7 @@ int main()
 	g.addEdge(3,4);
 	
 //	g.bfs(0);
-	g.distance(0);
+	g.distance(0,5);
 	
 	return 0;
 }

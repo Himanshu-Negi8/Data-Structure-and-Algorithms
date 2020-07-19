@@ -55,7 +55,7 @@ public:
 			//which are not visited neighbours of current node
 			for(T neighbour:adjList[node]){
 				if(dist[neighbour]==INT_MAX){
-					q.push(neighbour);
+					q.push(neighbour); 
 					dist[neighbour]=dist[node]+1;
 					parent[neighbour]=node;
 				}
