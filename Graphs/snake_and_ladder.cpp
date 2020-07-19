@@ -21,7 +21,7 @@ public:
 	void printGraph(){
 		//iterate over map
 		for(auto i : adjList){
-			//i.first is the key 
+			//i.first is the key
 			cout<<i.first<<"->";
 			//i second is name of person i follows
 			for(auto entry:i.second){
@@ -31,32 +31,7 @@ public:
 		}
 	}
 	
-	void bfs(T src){
-		queue<T>q;
-		map<T,bool>visited;
-		q.push(src);
-		visited[src]=true;
-		
-		while(!q.empty()){
-			T node = q.front();
-			cout<<node<<" ";
-			q.pop();
-			
-			//which are not visited neighbours of current node
-			for(T neighbour:adjList[node]){
-				if(!visited[neighbour]){
-					q.push(neighbour);
-					visited[neighbour]=true;
-				}
-				
-			}
-		}
-		
-	}
-	
-	
-	//finding the single source shortest path using bfs traversal
-	void distance(T src){
+	int bfs(T src, T dest){
 		queue<T>q;
 		
 		map<T,int>dist;
@@ -75,7 +50,6 @@ public:
 		
 		while(!q.empty()){
 			T node = q.front();
-			cout<<node<<" "; //you can print nodes level order wise as well
 			q.pop();
 			
 			//which are not visited neighbours of current node
@@ -89,33 +63,52 @@ public:
 			}
 		}
 		
-		//printing the distance
-		for(auto i:adjList){
-			T node = i.first;
-			cout<<" Dist of this "<<node<<" from "<<src<<" is "<<dist[node]<<endl;
+
+		//you have destination and go backwards
+		T temp = dest;
+		while(src!=temp){
+			cout<<temp<<" <-- ";
+			temp=parent[temp];
 		}
+		cout<<src<<endl;
+		return dist[dest];
 		
+	}
+};
+
+// in this just construct the graph all code is same like bfs used in traversal and single soure shortest path(SSSP)
+int main()
+{
+	Graph<int>g;
+	
+	int board[50]={0};
+	board[2]=13;
+	board[5]=2;
+	board[9]=18;
+	board[18]=11;
+	board[17]=-13;
+	board[20]=-14;
+	board[24]=-8;
+	board[25]=-10;
+	board[32]=-2;
+	board[34]=-22;
+	
+	// construct the graph, add pair (u,v)
+	
+	
+	for(int u=0;u<=36;u++){
+		//at every node we can through a dice
+		
+		for(int dice=1;dice<=6;dice++){
+			int v = u+dice+board[u+dice];
+			
+			g.addEdge(u,v,false);
+		}
 	}
 	
 	
 	
-};
-
-
-int main()
-{
-
-	Graph<int>g;
-	g.addEdge(0,1);
-	g.addEdge(1,2);
-	g.addEdge(0,4);
-	g.addEdge(2,4);
-	g.addEdge(2,3);
-	g.addEdge(3,5);
-	g.addEdge(3,4);
-	
-//	g.bfs(0);
-	g.distance(0);
+	cout<<g.bfs(0,36);
 	
 	return 0;
 }
