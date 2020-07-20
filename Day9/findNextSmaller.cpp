@@ -13,7 +13,7 @@ void nextSmaller(int arr[],int n)
 			 int idx = s.top();
 			 s.pop();
 			 cout<<arr[idx]<<"->"<<arr[i]<<endl;
-				
+			 
 			}
 			
 			s.push(i);
