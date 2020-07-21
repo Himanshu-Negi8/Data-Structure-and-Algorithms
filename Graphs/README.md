@@ -474,3 +474,338 @@ int main()
 
 ```
 
+# Graph Connected Components Finding via DFS
+
+```c
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	map<T,list<T>>adjList;
+public:
+	
+	 Graph(){
+		
+	}
+	void addEdge(T u, T v, bool bidir=true){
+		adjList[u].push_back(v);
+		if(bidir){
+			adjList[v].push_back(u);
+		}
+	}
+	
+	void printGraph(){
+		//iterate over map
+		for(auto i : adjList){
+			//i.first is the key
+			cout<<i.first<<"->";
+			//i second is name of person i follows
+			for(auto entry:i.second){
+				cout<<entry<<" ,";
+			}
+			cout<<endl;
+		}
+	}
+	
+	void dfsHelper(T node, map<T,bool> &visited){
+		//whenever come to a node make it visited
+		visited[node]=true;
+		cout<<node<<" ";
+		
+		
+		
+		//try to find out the neighbour and not visited yet
+		
+		for(T neighbour:adjList[node]){
+			if(!visited[neighbour]){
+				dfsHelper(neighbour,visited);
+			}
+		}
+		
+	}
+	
+	
+	void dfs(T src){
+		map<T,bool>visited;
+		
+		int component = 1;
+		
+		dfsHelper(src,visited);
+		
+		cout<<endl;
+		for(auto i:adjList){
+			T city = i.first;
+			if(!visited[city]){
+				//called dfsHelper again for those which are not visited by source 
+				dfsHelper(city,visited);
+				component++;
+			}
+		}
+		cout<<endl;
+		cout<<"The number of components in this graph "<<component<<" ";
+	}
+	
+	
+	
+};
+
+
+int main()
+{
+	
+	
+	
+	Graph<string>g;
+	g.addEdge("Amritsar","Jaipur");
+	g.addEdge("Amritsar","Delhi");
+	g.addEdge("Delhi","Jaipur");
+	g.addEdge("Mumbai","Jaipur");
+	g.addEdge("Mumbai","Bhopal");
+	g.addEdge("Delhi","Bhopal");
+	g.addEdge("Mumbai","Bangalore");
+	g.addEdge("Agra","Delhi");
+	g.addEdge("Andman","Nicobar");
+	
+
+	g.dfs("Amritsar");
+	
+	
+	return 0;
+}
+```
+
+---
+
+# Graph Topological Sort using DFS
+
+### Topological sort is simple algorithm that outputs the linear ordering of vertices of the graph such that for every edge u to v u comes before v. It is useful when we want to create a Dependency graph. Works only on Directed Acyclic Graphs.
+
+```c
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	map<T,list<T>>adjList;
+public:
+	
+	 Graph(){
+		
+	}
+	void addEdge(T u, T v, bool bidir=true){
+		adjList[u].push_back(v);
+		if(bidir){
+			adjList[v].push_back(u);
+		}
+	}
+	
+	void printGraph(){
+		//iterate over map
+		for(auto i : adjList){
+			//i.first is the key
+			cout<<i.first<<"->";
+			//i second is name of person i follows
+			for(auto entry:i.second){
+				cout<<entry<<" ,";
+			}
+			cout<<endl;
+		}
+	}
+	
+	void dfsHelper(T node, map<T,bool> &visited, list<T> &ordering){
+		
+		visited[node]=true;
+		
+		//will call dfs on unvisited neighbours 
+		for(T neighbour:adjList[node]){
+			if(!visited[neighbour]){
+				dfsHelper(neighbour,visited,ordering);
+			}
+		}
+		
+		//at this point all the childern of current node have been visited;
+		ordering.push_front(node);
+	}
+	
+	void dfsTopologicalSort(){
+		map<T,bool>visited;
+		list<T>ordering;
+		
+		
+		for(auto i:adjList){
+			// i is pair followed by its neighbour node adjList 
+			T node = i.first;
+			
+			if(!visited[node]){
+				dfsHelper(node,visited,ordering);
+			}
+		}
+		
+		//print all elements in ordering 
+		for(T element:ordering){
+			cout<<element<<"-->";
+		}
+	}
+};
+
+
+int main()
+{
+	Graph<string>g;
+	g.addEdge("English","Programming Logic",false);
+	g.addEdge("Maths","Programming Logic",false);
+	g.addEdge("Programming Logic","HTML",false);
+	g.addEdge("Programming Logic","Python",false);
+	g.addEdge("Programming Logic","Java",false);
+	g.addEdge("Programming Logic","JS",false);
+	g.addEdge("Python","Web Dev",false);
+	g.addEdge("HTML","CSS",false);
+	g.addEdge("CSS","JS",false);
+	g.addEdge("JS","Web Dev",false);
+	g.addEdge("Java","Web Dev",false);
+	
+	//g.printGraph(); incase requirement of printing the graph
+	
+	g.dfsTopologicalSort();
+	
+	return 0;
+}
+
+```
+---
+
+# Graph Topological Sort using BFS :heart_eyes:
+<p>The idea behind the bfs topological sort is to resolve those nodes or vertices first whose indegree is zero and process it
+ whenever we processes it out from queue we keep reducing the indegrees of its neighbour , if any point of time neighbours indegree meet the 
+requirement (means zero) we push it into the queue as well.</p>
+
+```c
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	map<T,list<T>>adjList;
+public:
+	
+	 Graph(){
+		
+	}
+	void addEdge(T u, T v, bool bidir=true){
+		adjList[u].push_back(v);
+		if(bidir){
+			adjList[v].push_back(u);
+		}
+	}
+	
+	void printGraph(){
+		//iterate over map
+		for(auto i : adjList){
+			//i.first is the key
+			cout<<i.first<<"->";
+			//i second is name of person i follows
+			for(auto entry:i.second){
+				cout<<entry<<" ,";
+			}
+			cout<<endl;
+		}
+	}
+	
+	void bfsTopologicalSort(){
+		queue<T>q;
+		map<T,bool>visited;
+		map<T,int>indegree;
+		
+		for(auto i:adjList){
+			T node = i.first;
+			visited[node]=false;
+			indegree[node]=0;
+		}
+		
+		//increment the indegree of neighbours of node 
+		
+		for(auto i:adjList){
+		
+			for(T neighbour:adjList[i.first]){
+				indegree[neighbour]++;
+			}
+		}
+		
+		
+		//push all the nodes in queue whose indegree is zero initially
+		for(auto i:adjList){
+			T node = i.first;
+			if(indegree[node]==0){
+				q.push(node);
+			}
+		}
+		
+		
+		//start with algorithm
+		while(!q.empty()){
+			T node =q.front();
+			q.pop();
+			cout<<node<<" ";
+			
+			for(T neighbour:adjList[node]){
+				indegree[neighbour]--; 
+				//if any point the indegree of neighbour become zero push it in the queue
+				if(indegree[neighbour]==0){
+					q.push(neighbour);
+				}
+			}
+		} 
+		
+		
+	}
+	
+	
+	
+};
+
+
+int main()
+{
+	
+	
+	// the idea is to resolve those nodes first whose indegree is zero 
+	
+	Graph<int>g;
+	g.addEdge(0,2,false);
+	g.addEdge(1,2,false);
+	g.addEdge(2,3,false);
+	g.addEdge(2,4,false);
+	g.addEdge(4,5,false);
+	g.addEdge(3,5,false);
+	g.printGraph();
+	g.bfsTopologicalSort();
+	
+	
+	Graph<string>g2;
+	g2.addEdge("English","Programming Logic",false);
+	g2.addEdge("Maths","Programming Logic",false);
+	g2.addEdge("Programming Logic","HTML",false);
+	g2.addEdge("Programming Logic","Python",false);
+	g2.addEdge("Programming Logic","Java",false);
+	g2.addEdge("Programming Logic","JS",false);
+	g2.addEdge("Python","Web Dev",false);
+	g2.addEdge("HTML","CSS",false);
+	g2.addEdge("CSS","JS",false);
+	g2.addEdge("JS","Web Dev",false);
+	g2.addEdge("Java","Web Dev",false);
+	g2.bfsTopologicalSort();
+	
+	
+	return 0;
+}
+
+
+
+```
