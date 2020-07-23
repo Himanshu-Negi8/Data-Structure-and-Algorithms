@@ -809,3 +809,329 @@ int main()
 
 
 ```
+
+---
+
+# Cycle Detection For Undirected Graph BFS
+
+```c
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	map<T,list<T>>adjList;
+public:
+	
+	 Graph(){
+		
+	}
+	void addEdge(T u, T v, bool bidir=true){
+		adjList[u].push_back(v);
+		if(bidir){
+			adjList[v].push_back(u);
+		}
+	}
+	
+	void printGraph(){
+		//iterate over map
+		for(auto i : adjList){
+			//i.first is the key
+			cout<<i.first<<"->";
+			//i second is name of person i follows
+			for(auto entry:i.second){
+				cout<<entry<<" ,";
+			}
+			cout<<endl;
+		}
+	}
+	
+	//check for undirected graph
+	bool isCyclicBFS(T src){
+		
+		map<T,bool>visited;
+		map<T,T>parent;
+		queue<T>q;
+		q.push(src);
+		visited[src]=true;
+		parent[src]=src;
+		
+		while(!q.empty()){
+			T node = q.front();
+			q.pop();
+			
+			//iterate overs the neighbour of node
+			
+			for(T neighbour:adjList[node]){
+				// the conditon  is used to check whether the negihbour is already visited or not 
+				// and also check whether the parent of current node is not the neighbour 
+				//because the parent of node is neighbour same as parent it will return true in that case also, we put the negative conditon
+				//as every time we had already visited the parent and parent is also its neighbour it is basically exception
+				if(visited[neighbour]==true and parent[node]!=neighbour){ 
+					return true;	
+				}
+				
+				else if(!visited[neighbour]){
+					visited[neighbour]=true;
+					parent[neighbour]=node;
+					q.push(neighbour);
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	
+};
+
+
+int main()
+{
+
+	
+	
+	Graph<int>g;
+	g.addEdge(0,1);
+	g.addEdge(1,4);
+	g.addEdge(2,3);
+	g.addEdge(4,3);
+	
+	
+	if(g.isCyclicBFS(1)){
+		cout<<"Cyclic Graph";
+	}else{
+		cout<<"Not cyclic graph";
+	}
+	
+	
+	
+	return 0;
+}
+
+```
+
+# Cycle Detection in Directed Graph DFS
+
+```c
+//cycle detection directed graph
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	map<T,list<T>>adjList;
+public:
+	
+	 Graph(){
+		
+	}
+	void addEdge(T u, T v, bool bidir=true){
+		adjList[u].push_back(v);
+		if(bidir){
+			adjList[v].push_back(u);
+		}
+	}
+	
+	void printGraph(){
+		//iterate over map
+		for(auto i : adjList){
+			//i.first is the key
+			cout<<i.first<<"->";
+			//i second is name of person i follows
+			for(auto entry:i.second){
+				cout<<entry<<" ,";
+			}
+			cout<<endl;
+		}
+	}
+	
+	bool isCyclicHelper(T node, map<T,bool> &visited, map<T,bool> &inStack){
+		
+		//processing the current node 
+		
+		visited[node]=true;
+		inStack[node]=true;
+		
+		//explore the neighbours of the node
+		for(T neighbour:adjList[node]){
+			//the current node is not visited but its further branch is leanding to cycle
+			if((!visited[neighbour] && isCyclicHelper(neighbour,visited,inStack))||inStack[neighbour]){
+				return true;
+			}
+		}
+		
+		inStack[node]=false;
+		return false;
+	}
+	
+	bool isCyclic(){
+		
+		map<T,bool>visited;
+		map<T,bool>inStack;
+		
+		for(auto i:adjList){
+			T node =i.first;
+			if(!visited[node]){
+				bool cyclePresent = isCyclicHelper(node,visited,inStack);
+				if(cyclePresent){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+};
+
+
+int main()
+{
+	
+	
+	Graph<int>g;
+	g.addEdge(0,2,false);
+	g.addEdge(0,1,false);
+	g.addEdge(2,3,false);
+	g.addEdge(2,4,false);
+	g.addEdge(3,0,false);
+	g.addEdge(4,5,false);
+	g.addEdge(1,5,false);
+	
+	cout<<g.isCyclic();
+	return 0;
+}
+
+
+```
+
+---
+
+# DijKstra Algorithm
+
+```c
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+
+class Graph{
+	
+	unordered_map<T,list<pair<T,int>>>adjList;
+public:
+	void addEdge(T u, T v, int dist, bool bidir=true){
+		
+		adjList[u].push_back(make_pair(v,dist));
+		if(bidir){
+			adjList[v].push_back(make_pair(u,dist));
+		}
+	}
+	
+	void printAdj(){
+		//iterate over all key value pairs
+		for(auto i:adjList){
+			//i.first is the key or node
+			cout<<i.first<<" ";
+			//i.second is the list of neighbours
+			for(auto l:i.second){
+				//inside list there is pair where l.first is neighbour node and l.second is weight or we can say distance
+				cout<<"("<<l.first<<" "<<l.second<<") ";
+			}
+			cout<<endl;
+		}
+	}
+	
+	void dijkstraSSSP(T src){
+		
+		
+		unordered_map<T,int>dist;
+		
+		//set all distances to infinity
+		for(auto j:adjList){
+			dist[j.first]=INT_MAX;
+		}
+		
+		//make a set to find out a node with minium distacne;
+		set<pair<int,T>>s;
+		dist[src]=0;
+		
+		s.insert(make_pair(0,src));
+		
+		while(!s.empty()){
+			
+			//find the pair at the front
+			
+			auto p = *(s.begin());
+			T node = p.second; //second parameter denotes the node
+			int nodeDist = p.first;//first parameter denotes the dist
+			
+			s.erase(s.begin());
+			
+			//iterate over the neighbours
+			for(auto childPair:adjList[node]){
+				if(nodeDist+childPair.second<dist[childPair.first]){
+					
+					T dest = childPair.first;
+					auto f = s.find(make_pair(dist[dest],dest));
+					if(f!=s.end()){
+						s.erase(f);
+						
+					}
+					//insert the new pair
+					dist[dest]=nodeDist+childPair.second;
+					s.insert(make_pair(dist[dest],dest));
+				}
+			}
+			
+		}
+		
+		//print dist to all other nodes
+		
+		for(auto d:dist){
+			cout<<d.first<<" is located at distance of "<<d.second<<endl;
+		}
+		
+	}
+};
+
+
+int main(){
+	
+	Graph<int>g;
+	
+	g.addEdge(1,2,1);
+	g.addEdge(1,3,4);
+	g.addEdge(1,4,7);
+	g.addEdge(2,3,1);
+	g.addEdge(3,4,2);
+	
+	g.printAdj();
+	g.dijkstraSSSP(1);
+	
+	
+	
+	Graph<string>india;
+	india.addEdge("Amritsar","Delhi",1);
+	india.addEdge("Amritsar","Jaipur",4);
+	india.addEdge("Jaipur","Delhi",2);
+	india.addEdge("Jaipur","Mumbai",8);
+	india.addEdge("Bhopal","Agra",2);
+	india.addEdge("Mumbai","Bhopal",3);
+	india.addEdge("Agra","Delhi",1);
+	
+	india.printAdj();
+	india.dijkstraSSSP("Amritsar");
+	
+	
+	return 0;
+}
+
+```
+

@@ -29,13 +29,17 @@ public:
 		}
 	}
 	
-	void dijkstra(T src){
+	void dijkstraSSSP(T src){
+		
 		
 		unordered_map<T,int>dist;
 		
-		for(auto node:adjList){
-			dist[node.first]=INT_MAX;
+		//set all distances to infinity
+		for(auto j:adjList){
+			dist[j.first]=INT_MAX;
 		}
+		
+		//make a set to find out a node with minium distacne;
 		set<pair<int,T>>s;
 		dist[src]=0;
 		
@@ -43,13 +47,15 @@ public:
 		
 		while(!s.empty()){
 			
+			//find the pair at the front
 			
-			auto p =*(s.begin());
-			T node = p.second;
-			int nodeDist = dist[node];
+			auto p = *(s.begin());
+			T node = p.second; //second parameter denotes the node
+			int nodeDist = p.first;//first parameter denotes the dist
 			
 			s.erase(s.begin());
 			
+			//iterate over the neighbours
 			for(auto childPair:adjList[node]){
 				if(nodeDist+childPair.second<dist[childPair.first]){
 					
@@ -57,23 +63,23 @@ public:
 					auto f = s.find(make_pair(dist[dest],dest));
 					if(f!=s.end()){
 						s.erase(f);
+						
 					}
-					
-					dist[dest]= nodeDist+childPair.second;
+					//insert the new pair
+					dist[dest]=nodeDist+childPair.second;
 					s.insert(make_pair(dist[dest],dest));
 				}
 			}
+			
 		}
+		
+		//print dist to all other nodes
 		
 		for(auto d:dist){
-			cout<<"Distance of "<<d.first<<" from "<<src<<" is "<<d.second<<endl;
+			cout<<d.first<<" is located at distance of "<<d.second<<endl;
 		}
 		
-		
-		
 	}
-	
-	
 };
 
 
@@ -88,8 +94,22 @@ int main(){
 	g.addEdge(3,4,2);
 	
 	g.printAdj();
-	g.dijkstra(1);
+	g.dijkstraSSSP(1);
+	
+	
+	
+	Graph<string>india;
+	india.addEdge("Amritsar","Delhi",1);
+	india.addEdge("Amritsar","Jaipur",4);
+	india.addEdge("Jaipur","Delhi",2);
+	india.addEdge("Jaipur","Mumbai",8);
+	india.addEdge("Bhopal","Agra",2);
+	india.addEdge("Mumbai","Bhopal",3);
+	india.addEdge("Agra","Delhi",1);
+	
+	india.printAdj();
+	india.dijkstraSSSP("Amritsar");
+	
 	
 	return 0;
-	
 }
