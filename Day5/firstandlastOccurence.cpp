@@ -14,7 +14,7 @@ int lastOccurence(int arr[],int n,int data)
 		int mid =(start+end)/2;
 		if(arr[mid]==data)
 		{
-
+                        ans=mid;
 			start=mid+1; //for last occurence
 			
 		}
