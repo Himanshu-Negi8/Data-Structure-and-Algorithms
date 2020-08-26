@@ -1,26 +1,34 @@
-#include<iostream>
-#include<climits>
+#include<bits/stdc++.h>
+using namespace std;
 
-bool partitonSumSubset(int a[],int n,int si,int sum,int total)
-{
-	
-
-	
-}
-
-bool isPossible(int a, int n)
-{
-	for(int i=0;i<n;i++)
-	{
-		int total+=a[i];
+bool partitionEqualSumSubset(int arr[],int n,int si,int sum,int total){
+	if(2*sum==total){
+		return true;
 	}
-	
-	if(total&1)
-	return false;
-	
-	
+
+	if(sum>total or si>=n){
+		return false;
+	}
+
+	bool include = partitionEqualSumSubset(arr,n,si+1,sum+arr[si],total);
+	bool exclude = partitionEqualSumSubset(arr,n,si+1,sum,total);
+
+	return exclude||include;
 }
 
+bool isPossible(int arr[],int n){
+	int total = 0;
+
+	for(int i=0;i<n;i++){
+		total+=arr[i];
+	}
+
+	if(total&1){
+		return false;
+	}
+
+	return partitionEqualSumSubset(arr,n,0,0,total);
+}
 
 
 int main()
