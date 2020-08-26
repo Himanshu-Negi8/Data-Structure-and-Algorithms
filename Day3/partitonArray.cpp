@@ -2,7 +2,7 @@
 using namespace std;
 
 bool partitionEqualSumSubset(int arr[],int n,int si,int sum,int total){
-	if(2*sum==total){
+	if(sum==total){
 		return true;
 	}
 
@@ -27,7 +27,7 @@ bool isPossible(int arr[],int n){
 		return false;
 	}
 
-	return partitionEqualSumSubset(arr,n,0,0,total);
+	return partitionEqualSumSubset(arr,n,0,0,total/2);
 }
 
 
