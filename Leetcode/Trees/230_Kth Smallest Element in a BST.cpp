@@ -15,14 +15,7 @@ public:
             
             vector<int>v;
             helper(root,v);
-            int i=0;
-        
-            
-            while(k!=0){
-                k--;
-                i++;  
-            }
-        
-        return v[--i];
+           
+        return v[--k];
     }
 };
