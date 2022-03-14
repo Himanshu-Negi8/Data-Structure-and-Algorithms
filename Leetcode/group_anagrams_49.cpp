@@ -8,12 +8,12 @@ public:
 	for(string x:strs){
 		auto word =x;
 		sort(x.begin(),x.end());
-		 mp[x].push_back(word);
-		}
+		mp[x].push_back(word);
+	}
 		
-		for( auto a : mp){
-			v.push_back(a.second);
-		}
+	for( auto a : mp){
+		v.push_back(a.second);
+	}
 	
         return v;
     }
